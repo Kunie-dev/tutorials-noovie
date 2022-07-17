@@ -1,0 +1,10 @@
+android/
+ios/
+node_modules/
+package.json
+app.json
+metro.config.js
+.eslintrc.json
+babel.config.js
+package-lock.json
+index.js
