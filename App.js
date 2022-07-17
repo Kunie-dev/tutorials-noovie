@@ -1,9 +1,9 @@
-import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
-import { Text } from 'react-native';
 import { useAssets } from 'expo-asset';
 import { useFonts } from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import Tabs from './navigation/Tabs';
 
 export default function App() {
   const [assets] = useAssets([require('./IMG_0025.jpeg')]);
@@ -13,5 +13,9 @@ export default function App() {
     return <AppLoading />;
   }
 
-  return <Text>We are done loading</Text>;
+  return (
+    <NavigationContainer>
+      <Tabs />
+    </NavigationContainer>
+  );
 }
