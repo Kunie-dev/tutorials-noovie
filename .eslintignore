@@ -8,3 +8,5 @@ metro.config.js
 babel.config.js
 package-lock.json
 index.js
+jest.config.js
+tsconfig.json

@@ -29,7 +29,7 @@
 
         // allow .js files to contain JSX code
         "react/react-in-jsx-scope": "off",
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".tsx"] }],
 
         // prevent eslint to complain about the "styles" variable being used before it was defined
         "no-use-before-define": ["error", { "variables": false }],
