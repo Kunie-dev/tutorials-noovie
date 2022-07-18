@@ -1,27 +1,37 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {Text, TouchableOpacity} from 'react-native';
 
-function ScreenOne({ navigation: { navigate } }) {
+const ScreenOne: React.FC<NativeStackScreenProps<any>> = ({
+  navigation: {navigate},
+}) => {
   return (
     <TouchableOpacity onPress={() => navigate('Two')}>
       <Text>One</Text>
     </TouchableOpacity>
   );
-}
-function ScreenTwo({ navigation: { navigate } }) {
+};
+const ScreenTwo: React.FC<NativeStackScreenProps<any>> = ({
+  navigation: {navigate},
+}) => {
   return (
     <TouchableOpacity onPress={() => navigate('Three')}>
       <Text>go to three</Text>
     </TouchableOpacity>
   );
-}
-function ScreenThree({ navigation: { navigate } }) {
+};
+const ScreenThree: React.FC<NativeStackScreenProps<any>> = ({
+  navigation: {navigate},
+}) => {
   return (
-    <TouchableOpacity onPress={() => navigate('Tabs', { screen: 'Search' })}>
+    <TouchableOpacity onPress={() => navigate('Tabs', {screen: 'Search'})}>
       <Text>Go to search</Text>
     </TouchableOpacity>
   );
-}
+};
 
 const NativeStack = createNativeStackNavigator();
 function Stack() {
@@ -29,8 +39,7 @@ function Stack() {
     <NativeStack.Navigator
       screenOptions={{
         headerBackTitleVisible: false,
-      }}
-    >
+      }}>
       <NativeStack.Screen name="One" component={ScreenOne} />
       <NativeStack.Screen name="Two" component={ScreenTwo} />
       <NativeStack.Screen name="Three" component={ScreenThree} />

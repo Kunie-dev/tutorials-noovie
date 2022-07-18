@@ -1,6 +1,8 @@
 android/
 ios/
 node_modules/
+.eslintrc.js
+.prettierrc.js
 package.json
 app.json
 metro.config.js

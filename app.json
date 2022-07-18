@@ -10,5 +10,6 @@
       "bundleIdentifier": "org.name.noovies"
     }
   },
-  "name": "noovies"
+  "name": "noovies",
+  "displayName": "noovies"
 }

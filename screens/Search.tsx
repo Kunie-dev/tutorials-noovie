@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const Tv: React.FC<NativeStackScreenProps<any>> = () => {
+const Search: React.FC<NativeStackScreenProps<any>> = () => {
   return (
     <View
       style={{
@@ -10,9 +10,9 @@ const Tv: React.FC<NativeStackScreenProps<any>> = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Tv</Text>
+      <Text>Search</Text>
     </View>
   );
 };
 
-export default Tv;
+export default Search;
