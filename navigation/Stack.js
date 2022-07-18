@@ -15,10 +15,10 @@ function ScreenTwo({ navigation: { navigate } }) {
     </TouchableOpacity>
   );
 }
-function ScreenThree({ navigation: { setOptions } }) {
+function ScreenThree({ navigation: { navigate } }) {
   return (
-    <TouchableOpacity onPress={() => setOptions({ title: 'Hello!' })}>
-      <Text>Change Title</Text>
+    <TouchableOpacity onPress={() => navigate('Tabs', { screen: 'Search' })}>
+      <Text>Go to search</Text>
     </TouchableOpacity>
   );
 }
