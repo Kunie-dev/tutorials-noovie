@@ -3,7 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { useState } from 'react';
+import { useColorScheme } from 'react-native';
+import { ThemeProvider } from 'styled-components';
 import Root from './navigation/Root';
+import { darkTheme, lightTheme } from './styled';
 
 const loadFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
 
@@ -14,14 +17,17 @@ export default function App() {
     const fonts = loadFonts([Ionicons.font]);
     await Promise.all([...fonts]);
   };
+  const isDark = useColorScheme() === 'dark';
 
   if (!ready) {
     return <AppLoading startAsync={startLoading} onFinish={onFinish} onError={console.error} />;
   }
 
   return (
-    <NavigationContainer>
-      <Root />
-    </NavigationContainer>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <NavigationContainer>
+        <Root />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
