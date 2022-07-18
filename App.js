@@ -1,16 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
-import { useAssets } from 'expo-asset';
-import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
+import { useState } from 'react';
 import Tabs from './navigation/Tabs';
 
-export default function App() {
-  const [assets] = useAssets([require('./IMG_0025.jpeg')]);
-  const [loaded] = useFonts(Ionicons.font);
+const loadFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
 
-  if (!assets || !loaded) {
-    return <AppLoading />;
+export default function App() {
+  const [ready, setReady] = useState(false);
+  const onFinish = () => setReady(true);
+  const startLoading = async () => {
+    const fonts = loadFonts([Ionicons.font]);
+    await Promise.all([...fonts]);
+  };
+
+  if (!ready) {
+    return <AppLoading startAsync={startLoading} onFinish={onFinish} onError={console.error} />;
   }
 
   return (
