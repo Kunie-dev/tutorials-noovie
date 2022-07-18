@@ -25,6 +25,7 @@
     "rules": {
         "global-require": "off",
         "import/no-extraneous-dependencies": "off",
+        "import/prefer-default-export": "off",
 
         // allow .js files to contain JSX code
         "react/react-in-jsx-scope": "off",

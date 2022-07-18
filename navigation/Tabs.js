@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View } from 'react-native';
+import { useColorScheme } from 'react-native';
+import { BLACK_COLOR, YELLOW_COLOR } from '../colors';
 import Movies from '../screens/Movies';
 import Search from '../screens/Search';
 import Tv from '../screens/Tv';
@@ -7,23 +8,22 @@ import Tv from '../screens/Tv';
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
+  const isDark = useColorScheme() === 'dark';
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: 'tomato',
+          backgroundColor: isDark ? BLACK_COLOR : 'white',
         },
-        tabBarActiveTintColor: 'red',
-        tabBarInactiveTintColor: 'purple',
+        tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
+        tabBarInactiveTintColor: isDark ? '#d2dae2' : '#808e9b',
+        headerStyle: {
+          backgroundColor: isDark ? BLACK_COLOR : 'white',
+        },
         headerTitleStyle: {
-          color: 'tomato',
+          color: isDark ? 'white' : BLACK_COLOR,
         },
-        // eslint-disable-next-line react/no-unstable-nested-components
-        headerRight: () => (
-          <View>
-            <Text>Hello</Text>
-          </View>
-        ),
       }}
     >
       <Tab.Screen name="Movies" component={Movies} />
