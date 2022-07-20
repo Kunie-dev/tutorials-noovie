@@ -4,7 +4,6 @@ import Poster from './Poster';
 
 const HMovie = styled.View`
   padding: 0 30px;
-  margin-bottom: 30px;
   flex-direction: row;
 `;
 const HColumn = styled.View`
@@ -54,7 +53,7 @@ const HMedia: React.FC<HMediaProps> = ({
           })}
       </Release>
       <Overview>
-        {overview !== '' && overview.length > 80
+        {overview && overview.length > 80
           ? `${overview.slice(0, 140)}...`
           : overview}
       </Overview>
