@@ -7,13 +7,14 @@ import {
   Dimensions,
   FlatList,
   RefreshControl,
-  View,
 } from 'react-native';
+
 import Slide from '../components/Slide';
 import HMedia from '../components/HMedia';
 import VMedia from '../components/VMedia';
+import * as moviesApi from '../api';
+import {useQuery} from '@tanstack/react-query';
 
-const API_KEY = '324228478dcf8e030ba46c4bba337236';
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 const Loader = styled.View`
@@ -36,59 +37,53 @@ const ListContainer = styled.View`
 const ComingSoonTitle = styled(ListTitle)`
   margin-bottom: 30px;
 `;
+const VSeparator = styled.View`
+  width: 20px;
+`;
+const HSeparator = styled.View`
+  height: 20px;
+`;
 
 const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = () => {
-  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [nowPlaying, setNowPlaying] = useState([]);
-  const [upcoming, setUpcoming] = useState([]);
-  const [trending, setTrending] = useState([]);
-  const getNowPlaying = async () => {
-    const {results} = await (
-      await fetch(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`,
-      )
-    ).json();
+  const {isLoading: nowPlayingLoading, data: nowPlaying} = useQuery(
+    ['nowPlaying'],
+    moviesApi.fetchNowPlaying,
+  );
+  const {isLoading: upcomingLoading, data: upcoming} = useQuery(
+    ['upcoming'],
+    moviesApi.fetchUpcoming,
+    {
+      cacheTime: Infinity,
+    },
+  );
+  const {isLoading: trendingLoading, data: trending} = useQuery(
+    ['trending'],
+    moviesApi.fetchTrending,
+  );
 
-    setNowPlaying(results);
-  };
-  const getUpcoming = async () => {
-    const {results} = await (
-      await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1&region=KR`,
-      )
-    ).json();
+  const onRefresh = () => {};
 
-    setUpcoming(results);
-  };
-  const getTrending = async () => {
-    const {results} = await (
-      await fetch(
-        `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`,
-      )
-    ).json();
+  const renderVMedia = ({item}) => (
+    <VMedia
+      posterPath={item.poster_path}
+      originalTitle={item.original_title}
+      voteAverage={item.vote_average}
+    />
+  );
+  const renderHMedia = ({item}) => (
+    <HMedia
+      posterPath={item.poster_path}
+      originalTitle={item.original_title}
+      overview={item.overview}
+      releaseDate={item.release_date}
+    />
+  );
+  const movieKeyExtractor = item => `${item.id}`;
 
-    setTrending(results);
-  };
-  const getData = async () => {
-    try {
-      await Promise.all([getNowPlaying(), getUpcoming(), getTrending()]);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const onRefresh = async () => {
-    setRefreshing(true);
-    try {
-      await getData();
-    } finally {
-      setRefreshing(false);
-    }
-  };
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const loading = nowPlayingLoading || upcomingLoading || trendingLoading;
 
   return loading ? (
     <Loader>
@@ -134,31 +129,18 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
               data={trending}
-              keyExtractor={item => `${item.id}`}
-              renderItem={({item}) => (
-                <VMedia
-                  posterPath={item.poster_path}
-                  originalTitle={item.original_title}
-                  voteAverage={item.vote_average}
-                />
-              )}
-              ItemSeparatorComponent={() => <View style={{width: 30}} />}
+              keyExtractor={movieKeyExtractor}
+              renderItem={renderVMedia}
+              ItemSeparatorComponent={VSeparator}
             />
           </ListContainer>
           <ComingSoonTitle>Coming Soon</ComingSoonTitle>
         </>
       }
       data={upcoming}
-      keyExtractor={item => `${item.id}`}
-      renderItem={({item}) => (
-        <HMedia
-          posterPath={item.poster_path}
-          originalTitle={item.original_title}
-          overview={item.overview}
-          releaseDate={item.release_date}
-        />
-      )}
-      ItemSeparatorComponent={() => <View style={{height: 30}} />}
+      keyExtractor={movieKeyExtractor}
+      renderItem={renderHMedia}
+      ItemSeparatorComponent={HSeparator}
     />
   );
 };

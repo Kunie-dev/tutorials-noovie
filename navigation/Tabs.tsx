@@ -18,6 +18,7 @@ function Tabs() {
         backgroundColor: isDark ? BLACK_COLOR : 'white',
       }}
       screenOptions={{
+        unmountOnBlur: true,
         tabBarStyle: {
           backgroundColor: isDark ? BLACK_COLOR : 'white',
         },
@@ -34,7 +35,8 @@ function Tabs() {
           fontSize: 12,
           fontWeight: '600',
         },
-      }}>
+      }}
+    >
       <Tab.Screen
         name="Movies"
         component={Movies}

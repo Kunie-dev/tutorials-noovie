@@ -5,9 +5,13 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import {useState} from 'react';
 import {useColorScheme} from 'react-native';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
 import {ThemeProvider} from 'styled-components';
 import Root from './navigation/Root';
 import {darkTheme, lightTheme} from './themes';
+
+const queryClient = new QueryClient();
 
 type Font = {
   [x: string]: any;
@@ -34,10 +38,12 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-      <NavigationContainer>
-        <Root />
-      </NavigationContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <NavigationContainer>
+          <Root />
+        </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
